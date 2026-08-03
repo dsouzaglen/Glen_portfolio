@@ -1,472 +1,227 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glen Dsouza | SOC Analyst Portfolio</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        mono: ['"Share Tech Mono"', 'monospace'],
-                        display: ['"Orbitron"', 'sans-serif'],
-                    },
-                    colors: {
-                        cyber: {
-                            main: '#00f3ff', /* Electric Cyan */
-                            accent: '#bc13fe', /* Neon Purple */
-                            alert: '#ff003c', /* Red */
-                            dark: '#050510',
-                            panel: '#0a0a1f'
-                        }
-                    },
-                    animation: {
-                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'float': 'float 6s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-20px)' },
-                        }
-                    }
-                }
-            }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Glen Jude Dsouza — SOC analyst and ethical hacker specializing in security operations, threat detection, and incident response.">
+  <meta name="theme-color" content="#07111f">
+  <title>Glen Dsouza | SOC Analyst & Ethical Hacker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+            mono: ["JetBrains Mono", "monospace"]
+          },
+          colors: {
+            ink: "#07111f",
+            panel: "#0b1729",
+            cyan: "#38d9f5",
+            violet: "#a78bfa"
+          }
         }
-    </script>
-    <style>
-        body { 
-            background-color: #020205; 
-            color: #e0e0e0; 
-            overflow-x: hidden;
-            cursor: crosshair; 
-        }
-
-        /* --- GRID BACKGROUND --- */
-        .cyber-grid {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
-            background-size: 30px 30px;
-            z-index: -1;
-            perspective: 500px;
-        }
-
-        /* --- GLITCH TITLE --- */
-        .glitch-text {
-            position: relative;
-            color: white;
-        }
-        .glitch-text::before, .glitch-text::after {
-            content: attr(data-text);
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        }
-        .glitch-text::before {
-            left: 2px; text-shadow: -1px 0 #ff003c;
-            animation: glitch-anim-1 2s infinite linear alternate-reverse;
-        }
-        .glitch-text::after {
-            left: -2px; text-shadow: 1px 0 #00f3ff;
-            animation: glitch-anim-2 3s infinite linear alternate-reverse;
-        }
-        @keyframes glitch-anim-1 {
-            0% { clip-path: inset(20% 0 80% 0); }
-            20% { clip-path: inset(60% 0 10% 0); }
-            40% { clip-path: inset(40% 0 50% 0); }
-            60% { clip-path: inset(80% 0 5% 0); }
-            80% { clip-path: inset(10% 0 70% 0); }
-            100% { clip-path: inset(30% 0 20% 0); }
-        }
-        @keyframes glitch-anim-2 {
-            0% { clip-path: inset(10% 0 60% 0); }
-            20% { clip-path: inset(30% 0 10% 0); }
-            40% { clip-path: inset(70% 0 20% 0); }
-            60% { clip-path: inset(20% 0 40% 0); }
-            80% { clip-path: inset(50% 0 30% 0); }
-            100% { clip-path: inset(10% 0 80% 0); }
-        }
-
-        /* --- CLASSIFIED VAULT --- */
-        .folder-container {
-            position: relative; width: 100%; height: 260px;
-            perspective: 1000px; cursor: pointer;
-        }
-        .folder-cover {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: #0f0f29; border: 1px solid #00f3ff;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-origin: top; z-index: 2; backface-visibility: hidden;
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.1);
-        }
-        .folder-content {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: #050510; border: 1px solid #bc13fe;
-            padding: 25px; display: flex; flex-direction: column; justify-content: space-between;
-            z-index: 1; box-shadow: inset 0 0 30px rgba(188, 19, 254, 0.1);
-        }
-        .folder-container:hover .folder-cover { transform: rotateX(180deg); opacity: 0; }
-        
-        .cyber-stamp {
-            border: 3px solid #00f3ff; color: #00f3ff;
-            padding: 8px 16px; transform: rotate(-10deg);
-            font-family: 'Orbitron', sans-serif; font-weight: bold; letter-spacing: 2px;
-            text-shadow: 0 0 10px #00f3ff;
-        }
-
-        /* --- LOADING SCREEN --- */
-        #loader {
-            position: fixed; inset: 0; background: #000; z-index: 9999;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-        }
-
-        /* --- SCROLL REVEAL --- */
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-        
-        /* Neon Button Hover */
-        .neon-btn:hover {
-            box-shadow: 0 0 20px #00f3ff, inset 0 0 10px #00f3ff;
-            text-shadow: 0 0 5px #fff;
-        }
-
-        /* Link Box Hover Effect */
-        .link-box {
-            transition: all 0.3s ease;
-        }
-        .link-box:hover {
-            background: rgba(0, 243, 255, 0.1);
-            border-color: #00f3ff;
-            transform: translateX(10px);
-        }
-    </style>
+      }
+    };
+  </script>
+  <style>
+    body {
+      background:
+        radial-gradient(circle at 15% 10%, rgba(56, 217, 245, .11), transparent 28rem),
+        radial-gradient(circle at 85% 25%, rgba(167, 139, 250, .09), transparent 26rem),
+        #07111f;
+    }
+    .grid-bg {
+      background-image: linear-gradient(rgba(148,163,184,.04) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(148,163,184,.04) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+    .glass { background: rgba(11, 23, 41, .76); backdrop-filter: blur(14px); }
+    .card { transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease; }
+    .card:hover { transform: translateY(-4px); border-color: rgba(56,217,245,.48); box-shadow: 0 18px 55px rgba(0,0,0,.24); }
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto !important; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .card { transition: none; }
+    }
+  </style>
 </head>
-<body>
+<body class="text-slate-200 antialiased selection:bg-cyan/20 selection:text-white">
+  <div class="grid-bg fixed inset-0 -z-10"></div>
 
-    <div class="cyber-grid"></div>
-
-    <div id="loader">
-        <div class="text-cyber-main text-2xl mb-4 font-display font-bold tracking-widest">CONNECTING TO SOC MAINFRAME...</div>
-        <div class="w-64 h-1 bg-gray-800 rounded relative overflow-hidden">
-            <div id="progress-bar" class="h-full bg-gradient-to-r from-cyber-accent to-cyber-main w-0 transition-all duration-[2000ms]"></div>
-        </div>
-        <div id="loading-text" class="mt-2 text-xs text-cyber-accent font-mono">Authenticating User: Glen Dsouza</div>
-    </div>
-
-    <nav class="fixed w-full z-50 bg-[#050510]/90 backdrop-blur border-b border-cyber-main/20">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-            <div class="text-2xl font-display font-bold text-white tracking-widest cursor-pointer">
-                GLEN<span class="text-cyber-main">.DSOUZA</span>
-            </div>
-            <div class="hidden md:flex gap-8 text-xs font-mono tracking-widest">
-                <a href="#home" class="text-gray-400 hover:text-cyber-main transition duration-300">/STATUS</a>
-                <a href="#skills" class="text-gray-400 hover:text-cyber-accent transition duration-300">/SKILLS</a>
-                <a href="#certs" class="text-gray-400 hover:text-cyber-main transition duration-300">/CREDENTIALS</a>
-                <a href="#contact" class="text-white bg-cyber-alert/20 border border-cyber-alert px-4 py-2 hover:bg-cyber-alert hover:text-black transition duration-300">CONNECT</a>
-            </div>
-        </div>
+  <header class="fixed inset-x-0 top-0 z-50 border-b border-white/10 glass">
+    <nav class="mx-auto flex h-16 max-w-6xl items-center justify-between px-5" aria-label="Main navigation">
+      <a href="#home" class="font-mono text-sm font-semibold tracking-wider text-white">
+        GLEN<span class="text-cyan">.DSOUZA</span>
+      </a>
+      <div class="hidden items-center gap-7 text-sm text-slate-300 md:flex">
+        <a class="transition hover:text-cyan" href="#about">About</a>
+        <a class="transition hover:text-cyan" href="#skills">Skills</a>
+        <a class="transition hover:text-cyan" href="#projects">Projects</a>
+        <a class="rounded-lg border border-cyan/40 px-4 py-2 font-medium text-cyan transition hover:bg-cyan/10" href="#contact">Contact</a>
+      </div>
+      <button id="menuButton" class="rounded-lg border border-white/10 p-2 text-slate-200 md:hidden" aria-label="Open navigation" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
     </nav>
+    <div id="mobileMenu" class="hidden border-t border-white/10 px-5 py-4 md:hidden">
+      <div class="mx-auto grid max-w-6xl gap-3 text-sm">
+        <a href="#about">About</a><a href="#skills">Skills</a><a href="#projects">Projects</a><a href="#contact">Contact</a>
+      </div>
+    </div>
+  </header>
 
-    <section id="home" class="min-h-screen flex items-center justify-center relative pt-20">
-        <div class="absolute top-1/4 left-1/4 w-32 h-32 bg-cyber-main/5 rounded-full blur-3xl animate-pulse"></div>
-        <div class="absolute bottom-1/4 right-1/4 w-64 h-64 bg-cyber-accent/5 rounded-full blur-3xl animate-pulse"></div>
-
-        <div class="relative z-10 text-center max-w-5xl px-4">
-            <div class="inline-flex items-center gap-2 border border-cyber-main/50 bg-cyber-main/10 px-6 py-2 rounded-full text-cyber-main text-xs font-bold font-mono mb-8 hover:bg-cyber-main/20 transition cursor-default">
-                <span class="w-2 h-2 bg-cyber-main rounded-full animate-ping"></span>
-                STATUS: AVAILABLE FOR IMMEDIATE DEPLOYMENT
-            </div>
-            
-            <h1 class="text-6xl md:text-8xl font-display font-black text-white mb-4 glitch-text" data-text="GLEN JUDE DSOUZA">
-                GLEN JUDE DSOUZA
-            </h1>
-            
-            <p class="text-xl md:text-3xl text-cyber-accent font-display mb-8">
-                SOC ANALYST // ETHICAL HACKER
-            </p>
-            
-            <p class="text-gray-400 max-w-2xl mx-auto mb-12 font-mono leading-relaxed">
-                Certified Ethical Hacker (CEH v13) specializing in SOC operations, log investigation, and threat hunting. Ready to defend your infrastructure against advanced cyber threats.
-            </p>
-
-            <div class="flex flex-col md:flex-row justify-center gap-6">
-                <a href="#contact" class="neon-btn px-8 py-4 bg-cyber-main text-black font-bold font-display tracking-wider clip-path-polygon hover:scale-105 transition transform">
-                    INITIATE INTERVIEW
-                </a>
-                <a href="#projects" class="px-8 py-4 border border-cyber-accent text-cyber-accent font-bold font-display tracking-wider hover:bg-cyber-accent hover:text-white transition transform hover:scale-105">
-                    VIEW OPERATIONS
-                </a>
-            </div>
+  <main>
+    <section id="home" class="mx-auto flex min-h-screen max-w-6xl items-center px-5 pb-16 pt-28">
+      <div class="grid w-full items-center gap-12 lg:grid-cols-[1.3fr_.7fr]">
+        <div class="reveal">
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-400/25 bg-emerald-400/10 px-4 py-2 text-xs font-semibold text-emerald-300">
+            <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+            Available for SOC and cybersecurity roles
+          </div>
+          <p class="mb-4 font-mono text-sm tracking-widest text-cyan">HELLO, I'M</p>
+          <h1 class="max-w-4xl text-5xl font-extrabold leading-tight text-white sm:text-6xl lg:text-7xl">Glen Jude Dsouza</h1>
+          <h2 class="mt-4 text-xl font-semibold text-violet sm:text-2xl">SOC Analyst & Ethical Hacker</h2>
+          <p class="mt-6 max-w-2xl text-base leading-8 text-slate-400 sm:text-lg">
+            Certified Ethical Hacker focused on SOC operations, log investigation, incident triage, and threat hunting. I turn security data into clear, actionable defense.
+          </p>
+          <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+            <a href="#projects" class="rounded-xl bg-cyan px-6 py-3 text-center font-semibold text-ink transition hover:bg-white">View projects</a>
+            <a href="#contact" class="rounded-xl border border-white/15 px-6 py-3 text-center font-semibold text-white transition hover:border-violet/60 hover:bg-white/5">Get in touch</a>
+          </div>
         </div>
+        <aside class="card reveal rounded-3xl border border-white/10 glass p-6 sm:p-8">
+          <p class="font-mono text-xs uppercase tracking-[.25em] text-cyan">Current focus</p>
+          <div class="mt-6 space-y-5">
+            <div><p class="text-sm text-slate-500">Primary role</p><p class="mt-1 font-semibold text-white">Security Operations Analyst</p></div>
+            <div><p class="text-sm text-slate-500">Core strengths</p><p class="mt-1 font-semibold text-white">SIEM · Incident response · Threat detection</p></div>
+            <div><p class="text-sm text-slate-500">Location</p><p class="mt-1 font-semibold text-white">Bengaluru, India</p></div>
+          </div>
+        </aside>
+      </div>
     </section>
 
-    <section id="skills" class="py-24 relative">
-        <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-4xl font-display font-bold text-white mb-16 text-center reveal">
-                <span class="text-cyber-main">>></span> OPERATIONAL CAPABILITIES
-            </h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-cyber-panel border border-gray-800 p-6 rounded hover:border-cyber-main transition duration-300 reveal group">
-                    <div class="text-cyber-main text-3xl mb-4 group-hover:animate-bounce"><i class="fas fa-shield-virus"></i></div>
-                    <h3 class="text-white font-bold mb-2 font-display">SOC Operations</h3>
-                    <p class="text-gray-400 text-sm font-mono">Log Analysis, Incident Triage, SIEM Monitoring, Threat Intelligence.</p>
-                </div>
-                <div class="bg-cyber-panel border border-gray-800 p-6 rounded hover:border-cyber-accent transition duration-300 reveal group">
-                    <div class="text-cyber-accent text-3xl mb-4 group-hover:animate-bounce"><i class="fas fa-network-wired"></i></div>
-                    <h3 class="text-white font-bold mb-2 font-display">Network Defense</h3>
-                    <p class="text-gray-400 text-sm font-mono">Wireshark Traffic Analysis, Firewall Config, Nmap Scanning.</p>
-                </div>
-                <div class="bg-cyber-panel border border-gray-800 p-6 rounded hover:border-cyber-alert transition duration-300 reveal group">
-                    <div class="text-cyber-alert text-3xl mb-4 group-hover:animate-bounce"><i class="fas fa-bug"></i></div>
-                    <h3 class="text-white font-bold mb-2 font-display">Vulnerability Mgmt</h3>
-                    <p class="text-gray-400 text-sm font-mono">Burp Suite, Metasploit, OWASP Top 10, SQL Injection Testing.</p>
-                </div>
-                <div class="bg-cyber-panel border border-gray-800 p-6 rounded hover:border-white transition duration-300 reveal group">
-                    <div class="text-white text-3xl mb-4 group-hover:animate-bounce"><i class="fas fa-code"></i></div>
-                    <h3 class="text-white font-bold mb-2 font-display">Automation</h3>
-                    <p class="text-gray-400 text-sm font-mono">Python Scripting for Security, Bash Automation, SQL Database Mgmt.</p>
-                </div>
-            </div>
+    <section id="about" class="border-y border-white/10 bg-white/[.02] py-20">
+      <div class="mx-auto max-w-6xl px-5">
+        <div class="reveal max-w-3xl">
+          <p class="font-mono text-sm text-cyan">01 / ABOUT</p>
+          <h2 class="mt-3 text-3xl font-bold text-white sm:text-4xl">Security-minded, evidence-driven</h2>
+          <p class="mt-6 text-lg leading-8 text-slate-400">
+            I combine hands-on cybersecurity knowledge with a practical approach to monitoring, investigation, and risk reduction. My work spans network analysis, vulnerability assessment, security automation, and clear incident documentation.
+          </p>
         </div>
+      </div>
     </section>
 
-    <section id="certs" class="py-24 bg-[#010103] relative border-y border-gray-900">
-        <div class="max-w-6xl mx-auto px-6">
-            <h2 class="text-4xl font-display font-bold text-white mb-6 text-center reveal">
-                <span class="text-cyber-accent">>></span> CREDENTIAL VAULT
-            </h2>
-            <p class="text-center text-cyber-main font-mono text-xs mb-16 reveal tracking-widest animate-pulse">HOVER TO DECRYPT FILES</p>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                
-                <div class="folder-container reveal">
-                    <div class="folder-content">
-                        <div class="flex justify-between items-start">
-                            <i class="fas fa-user-secret text-4xl text-cyber-accent"></i>
-                            <span class="text-xs text-cyber-main border border-cyber-main px-1">ACTIVE</span>
-                        </div>
-                        <div>
-                            <h3 class="text-2xl font-bold text-white font-display">CEH v13</h3>
-                            <p class="text-cyber-accent font-mono text-sm">Certified Ethical Hacker</p>
-                            <p class="text-gray-500 text-xs mt-2">Issuer: EC-Council</p>
-                        </div>
-                        <div class="text-xs font-mono text-gray-400 mt-4">
-                            > Module: System Hacking<br>
-                            > Module: Sniffing<br>
-                            > Module: Social Engineering
-                        </div>
-                    </div>
-                    <div class="folder-cover">
-                        <i class="fas fa-fingerprint text-6xl text-cyber-main/50 mb-4"></i>
-                        <div class="cyber-stamp">CONFIDENTIAL</div>
-                        <p class="text-xs text-cyber-main font-mono mt-4">LEVEL 5 CLEARANCE</p>
-                    </div>
-                </div>
-
-                <div class="folder-container reveal" style="transition-delay: 100ms;">
-                    <div class="folder-content border-cyber-main" style="box-shadow: inset 0 0 30px rgba(0, 243, 255, 0.1);">
-                        <div class="flex justify-between items-start">
-                            <i class="fas fa-graduation-cap text-4xl text-cyber-main"></i>
-                            <span class="text-xs text-cyber-main border border-cyber-main px-1">DEGREE</span>
-                        </div>
-                        <div>
-                            <h3 class="text-2xl font-bold text-white font-display">BCA</h3>
-                            <p class="text-cyber-main font-mono text-sm">Bachelor of Computer Applications</p>
-                            <p class="text-gray-500 text-xs mt-2">St. Aloysius University</p>
-                        </div>
-                         <div class="text-xs font-mono text-gray-400 mt-4">
-                            > Major: Computer Science<br>
-                            > Focus: Network Protocols<br>
-                            > Status: Completed
-                        </div>
-                    </div>
-                    <div class="folder-cover">
-                        <i class="fas fa-university text-6xl text-cyber-main/50 mb-4"></i>
-                        <div class="cyber-stamp">ACADEMIC</div>
-                        <p class="text-xs text-cyber-main font-mono mt-4">TRANSCRIPT LOGS</p>
-                    </div>
-                </div>
-
-                <div class="folder-container reveal" style="transition-delay: 200ms;">
-                    <div class="folder-content border-white" style="box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.1);">
-                        <div class="flex justify-between items-start">
-                            <i class="fas fa-database text-4xl text-white"></i>
-                            <span class="text-xs text-white border border-white px-1">SKILL</span>
-                        </div>
-                        <div>
-                            <h3 class="text-2xl font-bold text-white font-display">SQL Mgmt</h3>
-                            <p class="text-white font-mono text-sm">Data Management</p>
-                            <p class="text-gray-500 text-xs mt-2">Issuer: Coursera</p>
-                        </div>
-                         <div class="text-xs font-mono text-gray-400 mt-4">
-                            > Query Optimization<br>
-                            > Database Security<br>
-                            > Data Integrity
-                        </div>
-                    </div>
-                    <div class="folder-cover">
-                        <i class="fas fa-server text-6xl text-cyber-main/50 mb-4"></i>
-                        <div class="cyber-stamp" style="border-color: white; color: white; text-shadow: none;">DATABASE</div>
-                        <p class="text-xs text-cyber-main font-mono mt-4">STRUCTURED DATA</p>
-                    </div>
-                </div>
-
-            </div>
+    <section id="skills" class="py-20">
+      <div class="mx-auto max-w-6xl px-5">
+        <div class="reveal">
+          <p class="font-mono text-sm text-cyan">02 / CAPABILITIES</p>
+          <h2 class="mt-3 text-3xl font-bold text-white sm:text-4xl">What I work with</h2>
         </div>
+        <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <article class="card reveal rounded-2xl border border-white/10 bg-panel/80 p-6">
+            <div class="mb-5 text-2xl text-cyan">◈</div><h3 class="font-bold text-white">SOC Operations</h3>
+            <p class="mt-3 text-sm leading-6 text-slate-400">SIEM monitoring, log analysis, incident triage, and threat intelligence.</p>
+          </article>
+          <article class="card reveal rounded-2xl border border-white/10 bg-panel/80 p-6">
+            <div class="mb-5 text-2xl text-violet">⌁</div><h3 class="font-bold text-white">Network Defense</h3>
+            <p class="mt-3 text-sm leading-6 text-slate-400">Wireshark traffic analysis, firewall fundamentals, and Nmap scanning.</p>
+          </article>
+          <article class="card reveal rounded-2xl border border-white/10 bg-panel/80 p-6">
+            <div class="mb-5 text-2xl text-cyan">◎</div><h3 class="font-bold text-white">Vulnerability Management</h3>
+            <p class="mt-3 text-sm leading-6 text-slate-400">Burp Suite, Metasploit, OWASP Top 10, and remediation thinking.</p>
+          </article>
+          <article class="card reveal rounded-2xl border border-white/10 bg-panel/80 p-6">
+            <div class="mb-5 text-2xl text-violet">⌘</div><h3 class="font-bold text-white">Automation</h3>
+            <p class="mt-3 text-sm leading-6 text-slate-400">Python, Bash, and SQL for repeatable security workflows.</p>
+          </article>
+        </div>
+      </div>
     </section>
 
-    <section id="projects" class="py-24">
-        <div class="max-w-5xl mx-auto px-6">
-            <h2 class="text-4xl font-display font-bold text-white mb-16 text-center reveal">
-                <span class="text-cyber-alert">>></span> MISSION LOGS
-            </h2>
-
-            <div class="bg-gradient-to-r from-cyber-panel to-transparent border-l-4 border-cyber-main p-8 mb-8 reveal hover:bg-cyber-panel transition duration-300 relative group">
-                <div class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-100 transition"><i class="fas fa-terminal text-6xl text-cyber-main"></i></div>
-                <h3 class="text-2xl font-bold text-white font-display mb-2">SOC Simulation: Brute-Force Detector</h3>
-                <p class="text-gray-400 font-mono mb-4 max-w-2xl">
-                    Engineered a Python-based security tool utilizing entropy scoring and dictionary attacks to simulate real-world SOC brute-force detection scenarios.
-                </p>
-                <div class="flex gap-3">
-                    <span class="bg-cyber-main/10 text-cyber-main px-3 py-1 text-xs font-mono border border-cyber-main/30">PYTHON</span>
-                    <span class="bg-cyber-main/10 text-cyber-main px-3 py-1 text-xs font-mono border border-cyber-main/30">LOG ANALYSIS</span>
-                </div>
-            </div>
-
-            <div class="bg-gradient-to-r from-cyber-panel to-transparent border-l-4 border-cyber-accent p-8 reveal hover:bg-cyber-panel transition duration-300 relative group">
-                <div class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-100 transition"><i class="fas fa-lock text-6xl text-cyber-accent"></i></div>
-                <h3 class="text-2xl font-bold text-white font-display mb-2">Cryptographic File Storage</h3>
-                <p class="text-gray-400 font-mono mb-4 max-w-2xl">
-                    Developed a secure storage system implementing AES encryption and Role-Based Access Control (RBAC) to ensure confidentiality of sensitive data at rest.
-                </p>
-                <div class="flex gap-3">
-                    <span class="bg-cyber-accent/10 text-cyber-accent px-3 py-1 text-xs font-mono border border-cyber-accent/30">AES-256</span>
-                    <span class="bg-cyber-accent/10 text-cyber-accent px-3 py-1 text-xs font-mono border border-cyber-accent/30">SECURITY</span>
-                </div>
-            </div>
-
+    <section class="border-y border-white/10 bg-white/[.02] py-20">
+      <div class="mx-auto max-w-6xl px-5">
+        <div class="reveal">
+          <p class="font-mono text-sm text-cyan">03 / CREDENTIALS</p>
+          <h2 class="mt-3 text-3xl font-bold text-white sm:text-4xl">Education & certification</h2>
         </div>
+        <div class="mt-10 grid gap-5 md:grid-cols-3">
+          <div class="card reveal rounded-2xl border border-white/10 bg-panel/80 p-6"><p class="text-xs font-semibold uppercase tracking-widest text-cyan">Certification</p><h3 class="mt-4 text-xl font-bold text-white">CEH v13</h3><p class="mt-2 text-sm text-slate-400">Certified Ethical Hacker · EC-Council</p></div>
+          <div class="card reveal rounded-2xl border border-white/10 bg-panel/80 p-6"><p class="text-xs font-semibold uppercase tracking-widest text-violet">Degree</p><h3 class="mt-4 text-xl font-bold text-white">BCA</h3><p class="mt-2 text-sm text-slate-400">Bachelor of Computer Applications · St. Aloysius University</p></div>
+          <div class="card reveal rounded-2xl border border-white/10 bg-panel/80 p-6"><p class="text-xs font-semibold uppercase tracking-widest text-cyan">Course</p><h3 class="mt-4 text-xl font-bold text-white">SQL Management</h3><p class="mt-2 text-sm text-slate-400">Data management and database security · Coursera</p></div>
+        </div>
+      </div>
     </section>
 
-    <section id="contact" class="py-20 bg-black relative border-t border-cyber-main/30">
-        <div class="max-w-4xl mx-auto px-6">
-            <div class="bg-[#0c0c0c] border border-gray-700 rounded-lg overflow-hidden shadow-[0_0_50px_rgba(0,243,255,0.1)] reveal">
-                <div class="bg-gray-800 px-4 py-2 flex items-center gap-2 border-b border-gray-700">
-                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                    <span class="ml-2 text-xs text-gray-400 font-mono">SECURE_CHANNEL_ESTABLISHED</span>
-                </div>
-                <div class="p-8 font-mono text-sm md:text-base">
-                    <div class="text-gray-300 mb-6">
-                        <p><span class="text-cyber-main">sysadmin@glen:~$</span> detecting open ports...</p>
-                        <p><span class="text-cyber-main">sysadmin@glen:~$</span> <span class="text-cyber-accent">4 SECURE UPLINKS FOUND.</span></p>
-                    </div>
-
-                    <div class="space-y-4">
-                        <a href="mailto:dglen3265@gmail.com" class="link-box block border border-gray-700 bg-gray-900 p-4 rounded flex items-center justify-between group">
-                            <div class="flex items-center gap-4">
-                                <i class="fas fa-envelope text-2xl text-cyber-main group-hover:animate-pulse"></i>
-                                <div>
-                                    <div class="text-xs text-gray-500">EMAIL PROTOCOL</div>
-                                    <div class="text-white font-bold">dglen3265@gmail.com</div>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-right text-gray-600 group-hover:text-cyber-main"></i>
-                        </a>
-
-                        <a href="https://www.linkedin.com/in/glen-dsouza-24b968255" target="_blank" class="link-box block border border-gray-700 bg-gray-900 p-4 rounded flex items-center justify-between group">
-                            <div class="flex items-center gap-4">
-                                <i class="fab fa-linkedin text-2xl text-cyber-accent group-hover:animate-pulse"></i>
-                                <div>
-                                    <div class="text-xs text-gray-500">PROFESSIONAL NETWORK</div>
-                                    <div class="text-white font-bold">linkedin.com/in/glen-dsouza</div>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-right text-gray-600 group-hover:text-cyber-accent"></i>
-                        </a>
-
-                        <a href="https://github.com/dsouzaglen" target="_blank" class="link-box block border border-gray-700 bg-gray-900 p-4 rounded flex items-center justify-between group">
-                            <div class="flex items-center gap-4">
-                                <i class="fab fa-github text-2xl text-white group-hover:animate-pulse"></i>
-                                <div>
-                                    <div class="text-xs text-gray-500">CODE REPOSITORY</div>
-                                    <div class="text-white font-bold">github.com/dsouzaglen</div>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-right text-gray-600 group-hover:text-white"></i>
-                        </a>
-
-                        <div class="link-box block border border-gray-700 bg-gray-900 p-4 rounded flex items-center justify-between cursor-default">
-                            <div class="flex items-center gap-4">
-                                <i class="fas fa-phone text-2xl text-cyber-alert"></i>
-                                <div>
-                                    <div class="text-xs text-gray-500">VOICE LINE</div>
-                                    <div class="text-white font-bold">+91 93536 31556</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-8 flex flex-col md:flex-row gap-4 border-t border-gray-800 pt-6">
-                        <a href="mailto:dglen3265@gmail.com" class="flex-1 text-center px-6 py-3 bg-cyber-main text-black font-bold hover:bg-white transition-colors">
-                            EXECUTE_MAIL_PROTOCOL
-                        </a>
-                        <button onclick="copyEmail()" id="copyBtn" class="flex-1 text-center px-6 py-3 border border-cyber-accent text-cyber-accent font-bold hover:bg-cyber-accent hover:text-white transition-colors">
-                            COPY_COORDINATES
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="text-center mt-8 text-gray-600 text-xs font-mono">
-                [ SYSTEM ID: GLEN_DSOUZA_2026 ] // SOC CANDIDATE // BANGALORE, INDIA
-            </div>
+    <section id="projects" class="py-20">
+      <div class="mx-auto max-w-6xl px-5">
+        <div class="reveal">
+          <p class="font-mono text-sm text-cyan">04 / PROJECTS</p>
+          <h2 class="mt-3 text-3xl font-bold text-white sm:text-4xl">Selected security work</h2>
         </div>
+        <div class="mt-10 grid gap-6 lg:grid-cols-2">
+          <article class="card reveal rounded-3xl border border-white/10 bg-panel/80 p-7">
+            <div class="flex items-start justify-between gap-4"><span class="rounded-lg bg-cyan/10 px-3 py-1 font-mono text-xs text-cyan">PYTHON · LOG ANALYSIS</span><span class="text-cyan">↗</span></div>
+            <h3 class="mt-7 text-2xl font-bold text-white">SOC Brute-Force Detector</h3>
+            <p class="mt-4 leading-7 text-slate-400">A Python security tool using entropy scoring and dictionary analysis to simulate brute-force detection and support SOC investigation workflows.</p>
+          </article>
+          <article class="card reveal rounded-3xl border border-white/10 bg-panel/80 p-7">
+            <div class="flex items-start justify-between gap-4"><span class="rounded-lg bg-violet/10 px-3 py-1 font-mono text-xs text-violet">AES-256 · RBAC</span><span class="text-violet">↗</span></div>
+            <h3 class="mt-7 text-2xl font-bold text-white">Cryptographic File Storage</h3>
+            <p class="mt-4 leading-7 text-slate-400">A secure storage system implementing AES encryption and role-based access control to protect sensitive data at rest.</p>
+          </article>
+        </div>
+      </div>
     </section>
 
-    <script>
-        // --- PRELOADER ---
-        window.addEventListener('load', () => {
-            document.getElementById('progress-bar').style.width = '100%';
-            setTimeout(() => {
-                document.getElementById('loader').style.opacity = '0';
-                setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 500);
-            }, 1500);
-        });
+    <section id="contact" class="border-t border-white/10 py-20">
+      <div class="mx-auto max-w-4xl px-5">
+        <div class="reveal rounded-3xl border border-white/10 glass p-7 sm:p-10">
+          <p class="font-mono text-sm text-cyan">05 / CONTACT</p>
+          <h2 class="mt-3 text-3xl font-bold text-white sm:text-4xl">Let's connect</h2>
+          <p class="mt-4 max-w-2xl leading-7 text-slate-400">Interested in SOC, cybersecurity, or security operations opportunities? I’d be happy to talk.</p>
+          <div class="mt-8 grid gap-3 sm:grid-cols-2">
+            <a class="rounded-xl border border-white/10 bg-white/[.03] p-4 transition hover:border-cyan/50" href="mailto:dglen3265@gmail.com"><span class="block text-xs text-slate-500">Email</span><span class="mt-1 block font-medium text-white">dglen3265@gmail.com</span></a>
+            <a class="rounded-xl border border-white/10 bg-white/[.03] p-4 transition hover:border-violet/50" href="https://www.linkedin.com/in/glen-dsouza-24b968255" target="_blank" rel="noopener"><span class="block text-xs text-slate-500">LinkedIn</span><span class="mt-1 block font-medium text-white">Glen Dsouza</span></a>
+            <a class="rounded-xl border border-white/10 bg-white/[.03] p-4 transition hover:border-cyan/50" href="https://github.com/dsouzaglen" target="_blank" rel="noopener"><span class="block text-xs text-slate-500">GitHub</span><span class="mt-1 block font-medium text-white">@dsouzaglen</span></a>
+            <a class="rounded-xl border border-white/10 bg-white/[.03] p-4 transition hover:border-violet/50" href="tel:+919353631556"><span class="block text-xs text-slate-500">Phone</span><span class="mt-1 block font-medium text-white">+91 93536 31556</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
-        // --- COPY TO CLIPBOARD FUNCTION ---
-        function copyEmail() {
-            const email = "dglen3265@gmail.com";
-            navigator.clipboard.writeText(email).then(() => {
-                const btn = document.getElementById('copyBtn');
-                const originalText = btn.innerText;
-                btn.innerText = "COPIED TO CLIPBOARD";
-                btn.style.backgroundColor = "#bc13fe";
-                btn.style.color = "#ffffff";
-                
-                setTimeout(() => {
-                    btn.innerText = originalText;
-                    btn.style.backgroundColor = "transparent";
-                    btn.style.color = "#bc13fe";
-                }, 2000);
-            });
+  <footer class="border-t border-white/10 py-8 text-center text-sm text-slate-500">
+    <p>© 2026 Glen Jude Dsouza · Built for the security community.</p>
+  </footer>
+
+  <script>
+    const button = document.getElementById("menuButton");
+    const menu = document.getElementById("mobileMenu");
+    button.addEventListener("click", () => {
+      const open = menu.classList.toggle("hidden") === false;
+      button.setAttribute("aria-expanded", String(open));
+    });
+    menu.querySelectorAll("a").forEach(link => link.addEventListener("click", () => {
+      menu.classList.add("hidden");
+      button.setAttribute("aria-expanded", "false");
+    }));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
         }
-
-        // --- SCROLL REVEAL ---
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if(entry.isIntersecting) entry.target.classList.add('active');
-            });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-    </script>
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll(".reveal").forEach(element => observer.observe(element));
+  </script>
 </body>
 </html>
