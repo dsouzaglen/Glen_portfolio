@@ -88,6 +88,19 @@
     .boot-cursor { display: inline-block; width: .6em; height: 1.05em; vertical-align: -.15em; background: #f2e9f3; animation: cursorBlink 1s steps(1) infinite; }
     .boot-track { height: 3px; background: rgba(255,255,255,.09); }
     .boot-fill { height: 100%; background: linear-gradient(90deg, #e95420, #c061cb); animation: bootProgress 2.8s ease-out forwards; }
+
+    #scroll-progress { position: fixed; inset: 0 auto auto 0; z-index: 80; height: 2px; width: 0; background: linear-gradient(90deg, #38d9f5, #a78bfa); box-shadow: 0 0 14px rgba(56,217,245,.7); }
+    .nav-link.active { color: #38d9f5; }
+    .signal-line { position: relative; height: 56px; overflow: hidden; }
+    .signal-line::before { content: ""; position: absolute; inset: 50% 0 auto; height: 1px; background: rgba(56,217,245,.16); }
+    .signal-line svg { width: 100%; height: 100%; filter: drop-shadow(0 0 6px rgba(56,217,245,.65)); }
+    .telemetry-bar { overflow: hidden; border-radius: 999px; background: rgba(148,163,184,.12); }
+    .telemetry-fill { height: 100%; border-radius: inherit; transform-origin: left; animation: bootProgress 1.4s ease-out both; }
+    .metric { position: relative; }
+    .metric::after { content: ""; position: absolute; inset: auto 0 -1px; height: 1px; background: linear-gradient(90deg, transparent, rgba(56,217,245,.5), transparent); transform: scaleX(0); transition: transform .3s ease; }
+    .metric:hover::after { transform: scaleX(1); }
+    #backToTop { opacity: 0; transform: translateY(12px); pointer-events: none; transition: opacity .25s ease, transform .25s ease, border-color .25s ease; }
+    #backToTop.show { opacity: 1; transform: none; pointer-events: auto; }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto !important; }
       .reveal { opacity: 1; transform: none; transition: none; }
@@ -97,6 +110,7 @@
   </style>
 </head>
 <body class="text-slate-200 antialiased selection:bg-cyan/20 selection:text-white">
+  <div id="scroll-progress"></div>
 
   <div id="boot-screen" role="status" aria-label="Loading portfolio">
     <div class="boot-shell">
@@ -122,10 +136,10 @@
         GLEN<span class="text-cyan">.DSOUZA</span>
       </a>
       <div class="hidden items-center gap-7 text-sm text-slate-300 md:flex">
-        <a class="transition hover:text-cyan" href="#about">About</a>
-        <a class="transition hover:text-cyan" href="#skills">Skills</a>
-        <a class="transition hover:text-cyan" href="#projects">Projects</a>
-        <a class="rounded-lg border border-cyan/40 px-4 py-2 font-medium text-cyan transition hover:bg-cyan/10" href="#contact">Contact</a>
+        <a class="nav-link transition hover:text-cyan" href="#about">About</a>
+        <a class="nav-link transition hover:text-cyan" href="#skills">Skills</a>
+        <a class="nav-link transition hover:text-cyan" href="#projects">Projects</a>
+        <a class="nav-link rounded-lg border border-cyan/40 px-4 py-2 font-medium text-cyan transition hover:bg-cyan/10" href="#contact">Contact</a>
       </div>
       <button id="menuButton" class="rounded-lg border border-white/10 p-2 text-slate-200 md:hidden" aria-label="Open navigation" aria-expanded="false">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -157,14 +171,36 @@
             <a href="#contact" class="rounded-xl border border-white/15 px-6 py-3 text-center font-semibold text-white transition hover:border-violet/60 hover:bg-white/5">Get in touch</a>
           </div>
         </div>
-        <aside class="card reveal rounded-3xl border border-white/10 glass p-6 sm:p-8">
-          <p class="font-mono text-xs uppercase tracking-[.25em] text-cyan">Current focus</p>
-          <div class="mt-6 space-y-5">
-            <div><p class="text-sm text-slate-500">Primary role</p><p class="mt-1 font-semibold text-white">Security Operations Analyst</p></div>
-            <div><p class="text-sm text-slate-500">Core strengths</p><p class="mt-1 font-semibold text-white">SIEM · Incident response · Threat detection</p></div>
-            <div><p class="text-sm text-slate-500">Location</p><p class="mt-1 font-semibold text-white">Bengaluru, India</p></div>
+        <aside class="card reveal overflow-hidden rounded-3xl border border-white/10 glass">
+          <div class="flex items-center justify-between border-b border-white/10 px-6 py-4">
+            <div><p class="font-mono text-xs uppercase tracking-[.22em] text-cyan">SOC telemetry</p><p class="mt-1 text-xs text-slate-500">Live security posture</p></div>
+            <span class="flex items-center gap-2 text-xs text-emerald-300"><span class="status-dot h-2 w-2 rounded-full bg-emerald-400"></span>ONLINE</span>
+          </div>
+          <div class="p-6">
+            <div class="signal-line">
+              <svg viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true"><polyline fill="none" stroke="#38d9f5" stroke-width="2" points="0,34 35,34 48,18 62,46 78,29 102,34 145,34 158,12 174,50 190,24 207,34 246,34 260,20 276,44 292,31 325,34 347,16 362,48 378,28 400,34"/></svg>
+            </div>
+            <div class="mt-5 grid grid-cols-3 gap-3 text-center">
+              <div class="metric rounded-xl border border-white/10 bg-white/[.03] p-3"><p class="text-xl font-bold text-white">24/7</p><p class="mt-1 text-[10px] uppercase tracking-wider text-slate-500">Monitoring</p></div>
+              <div class="metric rounded-xl border border-white/10 bg-white/[.03] p-3"><p class="text-xl font-bold text-cyan">4</p><p class="mt-1 text-[10px] uppercase tracking-wider text-slate-500">Domains</p></div>
+              <div class="metric rounded-xl border border-white/10 bg-white/[.03] p-3"><p class="text-xl font-bold text-violet">2</p><p class="mt-1 text-[10px] uppercase tracking-wider text-slate-500">Projects</p></div>
+            </div>
+            <div class="mt-6 space-y-4 text-xs">
+              <div><div class="mb-2 flex justify-between"><span class="text-slate-400">Threat analysis</span><span class="text-cyan">92%</span></div><div class="telemetry-bar h-1.5"><div class="telemetry-fill w-[92%] bg-cyan"></div></div></div>
+              <div><div class="mb-2 flex justify-between"><span class="text-slate-400">Network defense</span><span class="text-violet">86%</span></div><div class="telemetry-bar h-1.5"><div class="telemetry-fill w-[86%] bg-violet"></div></div></div>
+              <div><div class="mb-2 flex justify-between"><span class="text-slate-400">Security automation</span><span class="text-emerald-300">80%</span></div><div class="telemetry-bar h-1.5"><div class="telemetry-fill w-[80%] bg-emerald-400"></div></div></div>
+            </div>
           </div>
         </aside>
+      </div>
+    </section>
+
+
+    <section class="relative -mt-12 pb-16">
+      <div class="mx-auto grid max-w-6xl gap-3 px-5 sm:grid-cols-3">
+        <div class="metric reveal rounded-2xl border border-white/10 glass p-5"><p class="font-mono text-xs text-cyan">FOCUS</p><p class="mt-2 font-semibold text-white">Incident detection & response</p></div>
+        <div class="metric reveal rounded-2xl border border-white/10 glass p-5"><p class="font-mono text-xs text-violet">TOOLKIT</p><p class="mt-2 font-semibold text-white">SIEM · Wireshark · Python</p></div>
+        <div class="metric reveal rounded-2xl border border-white/10 glass p-5"><p class="font-mono text-xs text-emerald-300">LOCATION</p><p class="mt-2 font-semibold text-white">Bengaluru, India</p></div>
       </div>
     </section>
 
@@ -258,6 +294,10 @@
     </section>
   </main>
 
+  <button id="backToTop" class="fixed bottom-5 right-5 z-40 rounded-xl border border-white/15 glass p-3 text-cyan hover:border-cyan/60" aria-label="Back to top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 15-6-6-6 6"/></svg>
+  </button>
+
   <footer class="border-t border-white/10 py-8 text-center text-sm text-slate-500">
     <p>© 2026 Glen Jude Dsouza · Built for the security community.</p>
   </footer>
@@ -273,6 +313,26 @@
       setTimeout(() => bootScreen.remove(), 700);
     };
     if (reducedMotion) finishBoot(); else setTimeout(finishBoot, 3400);
+
+    const progressBar = document.getElementById("scroll-progress");
+    const backToTop = document.getElementById("backToTop");
+    const updateScrollUI = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      progressBar.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + "%";
+      backToTop.classList.toggle("show", window.scrollY > 500);
+    };
+    window.addEventListener("scroll", updateScrollUI, { passive: true });
+    updateScrollUI();
+    backToTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" }));
+    const navLinks = [...document.querySelectorAll(".nav-link")];
+    const navObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => link.classList.toggle("active", link.getAttribute("href") === "#" + entry.target.id));
+        }
+      });
+    }, { rootMargin: "-35% 0px -55% 0px" });
+    document.querySelectorAll("main section[id]").forEach(section => navObserver.observe(section));
     const button = document.getElementById("menuButton");
     const menu = document.getElementById("mobileMenu");
     button.addEventListener("click", () => {
