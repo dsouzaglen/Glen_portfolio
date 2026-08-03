@@ -72,6 +72,22 @@
     .cta-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 35px rgba(56, 217, 245, .24); }
     .card:nth-child(2n) { transition-delay: .08s; }
     .card:nth-child(3n) { transition-delay: .16s; }
+
+    @keyframes bootLine { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+    @keyframes bootProgress { from { width: 0; } to { width: 100%; } }
+    @keyframes cursorBlink { 0%, 48% { opacity: 1; } 49%, 100% { opacity: 0; } }
+    #boot-screen { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; overflow: hidden; background: radial-gradient(circle at 50% 35%, #3b143f 0, #220c28 38%, #0d0710 100%); transition: opacity .65s ease, visibility .65s ease; }
+    #boot-screen.boot-done { opacity: 0; visibility: hidden; }
+    .boot-shell { width: min(90vw, 720px); overflow: hidden; border: 1px solid rgba(255,255,255,.16); border-radius: 14px; background: rgba(18, 10, 20, .94); box-shadow: 0 35px 100px rgba(0,0,0,.55); }
+    .boot-bar { display: flex; align-items: center; gap: 7px; padding: 10px 13px; border-bottom: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.06); }
+    .boot-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .boot-terminal { min-height: 300px; padding: 24px; color: #f2e9f3; font-family: "JetBrains Mono", monospace; font-size: clamp(.74rem, 2vw, .92rem); line-height: 1.8; }
+    .boot-line { opacity: 0; animation: bootLine .3s ease forwards; }
+    .boot-line:nth-child(2) { animation-delay: .4s; }.boot-line:nth-child(3) { animation-delay: .85s; }.boot-line:nth-child(4) { animation-delay: 1.25s; }.boot-line:nth-child(5) { animation-delay: 1.7s; }.boot-line:nth-child(6) { animation-delay: 2.1s; }
+    .boot-accent { color: #e95420; }.boot-success { color: #87d96c; }
+    .boot-cursor { display: inline-block; width: .6em; height: 1.05em; vertical-align: -.15em; background: #f2e9f3; animation: cursorBlink 1s steps(1) infinite; }
+    .boot-track { height: 3px; background: rgba(255,255,255,.09); }
+    .boot-fill { height: 100%; background: linear-gradient(90deg, #e95420, #c061cb); animation: bootProgress 2.8s ease-out forwards; }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto !important; }
       .reveal { opacity: 1; transform: none; transition: none; }
@@ -81,6 +97,22 @@
   </style>
 </head>
 <body class="text-slate-200 antialiased selection:bg-cyan/20 selection:text-white">
+
+  <div id="boot-screen" role="status" aria-label="Loading portfolio">
+    <div class="boot-shell">
+      <div class="boot-bar"><span class="boot-dot bg-[#e95420]"></span><span class="boot-dot bg-[#f6b73c]"></span><span class="boot-dot bg-[#5dd65d]"></span><span class="ml-2 font-mono text-xs text-white/60">glen@portfolio: ~</span></div>
+      <div class="boot-terminal">
+        <div class="boot-line"><span class="boot-accent">Ubuntu 24.04 LTS</span> glen-portfolio tty1</div>
+        <div class="boot-line mt-4">glen-portfolio login: <span class="text-white">glen</span></div>
+        <div class="boot-line">Password: ••••••••</div>
+        <div class="boot-line mt-4"><span class="boot-success">[ OK ]</span> Session authenticated</div>
+        <div class="boot-line"><span class="boot-success">[ OK ]</span> Loading security profile</div>
+        <div class="boot-line mt-4"><span class="text-[#87d96c]">glen@portfolio</span>:<span class="text-[#71a7ff]">~</span>$ start portfolio <span class="boot-cursor"></span></div>
+      </div>
+      <div class="boot-track"><div class="boot-fill"></div></div>
+    </div>
+  </div>
+
   <div class="grid-bg fixed inset-0 -z-10"></div>
   <div class="orb orb-one"></div><div class="orb orb-two"></div><div class="orb orb-three"></div>
 
@@ -231,6 +263,16 @@
   </footer>
 
   <script>
+
+    const bootScreen = document.getElementById("boot-screen");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    document.body.style.overflow = "hidden";
+    const finishBoot = () => {
+      bootScreen.classList.add("boot-done");
+      document.body.style.overflow = "";
+      setTimeout(() => bootScreen.remove(), 700);
+    };
+    if (reducedMotion) finishBoot(); else setTimeout(finishBoot, 3400);
     const button = document.getElementById("menuButton");
     const menu = document.getElementById("mobileMenu");
     button.addEventListener("click", () => {
