@@ -2,7 +2,7 @@
 
 A seven-panel Splunk Enterprise dashboard for Windows authentication monitoring and Level 1 triage, built using the historical [Boss of the SOC v3 practice dataset](https://github.com/splunk/botsv3).
 
-![Overview with event counts and Windows authentication charts](overview.jpg)
+![Overview with event counts and Windows authentication charts](dashboard.png)
 
 ## Investigation workflow
 
