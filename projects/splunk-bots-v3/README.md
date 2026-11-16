@@ -2,7 +2,7 @@
 
 A seven-panel Splunk Enterprise dashboard for Windows authentication monitoring and Level 1 triage, built using the historical [Boss of the SOC v3 practice dataset](https://github.com/splunk/botsv3).
 
-![Overview with event counts and Windows authentication charts](dashboard.png)
+![Overview with event counts and Windows authentication charts](overview.jpg)
 
 ## Investigation workflow
 
@@ -11,7 +11,7 @@ A seven-panel Splunk Enterprise dashboard for Windows authentication monitoring 
 3. Review the failed-logon table for the event time, host, account, source, and logon type. Pivot to the original event before deciding whether to escalate.
 4. Check the event-code and source-type charts to understand what telemetry is available.
 
-![Authentication timeline, failed-logon triage table, and source-type coverage](triage.jpg)
+![Failed-logon triage table and source-type coverage](triage.png)
 
 In this lab, the full index contained **2,083,056 events**. The Windows Security searches returned **427 successful logon events** and **3 failed logon events**. The failed events showed `-` for the source address, so the table alone cannot establish the origin of the activity. These are event counts from the lab dataset.
 
