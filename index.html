@@ -52,16 +52,61 @@
     #scroll-progress { position: fixed; inset: 0 auto auto 0; height: 2px; background: #8ce5d0; z-index: 60; }
     #backToTop { visibility: hidden; opacity: 0; }
     #backToTop.show { visibility: visible; opacity: 1; }
-    #home { background: radial-gradient(ellipse at 74% 23%, #143127 0, transparent 56%); }
     .hero-title { font-size: clamp(2.85rem, 6vw, 5.5rem); line-height: 1.02; font-weight: 800; }
     .project-frame { border: 1px solid #354a59; background: #e8eef2; }
     .eyebrow { font-size: .73rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #8ce5d0; }
     a:focus-visible, button:focus-visible { outline: 2px solid #8ce5d0; outline-offset: 4px; }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    @keyframes bootLine { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+    @keyframes bootProgress { from { width: 0; } to { width: 100%; } }
+    @keyframes cursorBlink { 0%, 48% { opacity: 1; } 49%, 100% { opacity: 0; } }
+    #boot-screen { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; overflow: hidden; background: radial-gradient(circle at 50% 35%, #3b143f 0, #220c28 38%, #0d0710 100%); transition: opacity .65s ease, visibility .65s ease; }
+    #boot-screen.boot-done { opacity: 0; visibility: hidden; }
+    .boot-shell { width: min(90vw, 720px); overflow: hidden; border: 1px solid rgba(255,255,255,.16); border-radius: 14px; background: rgba(18, 10, 20, .94); box-shadow: 0 35px 100px rgba(0,0,0,.55); }
+    .boot-bar { display: flex; align-items: center; gap: 7px; padding: 10px 13px; border-bottom: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.06); }
+    .boot-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .boot-terminal { min-height: 300px; padding: 24px; color: #f2e9f3; font-family: "JetBrains Mono", monospace; font-size: clamp(.74rem, 2vw, .92rem); line-height: 1.8; }
+    .boot-line { opacity: 0; animation: bootLine .3s ease forwards; }
+    .boot-line:nth-child(2) { animation-delay: .4s; }.boot-line:nth-child(3) { animation-delay: .85s; }.boot-line:nth-child(4) { animation-delay: 1.25s; }.boot-line:nth-child(5) { animation-delay: 1.7s; }.boot-line:nth-child(6) { animation-delay: 2.1s; }
+    .boot-accent { color: #e95420; }.boot-success { color: #87d96c; }
+    .boot-cursor { display: inline-block; width: .6em; height: 1.05em; vertical-align: -.15em; background: #f2e9f3; animation: cursorBlink 1s steps(1) infinite; }
+    .boot-track { height: 3px; background: rgba(255,255,255,.09); }
+    .boot-fill { height: 100%; background: linear-gradient(90deg, #e95420, #c061cb); animation: bootProgress 2.8s ease-out forwards; }
+    #home {
+      background-color: #0a1521;
+      background-image: linear-gradient(rgba(138,224,205,.045) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(138,224,205,.045) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+    .soc-console { background: #0b1521; border-color: #35505b; }
+    .soc-console-bar { background: #162633; border-bottom: 1px solid #35505b; }
+    .soc-console-bar .eyebrow { letter-spacing: .1em; }
+    .soc-console-case { border-top: 1px solid #35505b; }
+    #projects article[aria-labelledby] { border-top: 3px solid #8ce5d0; }
+    #splunk-project-title { scroll-margin-top: 6rem; }
+    @media (prefers-reduced-motion: reduce) {
+      .boot-line { opacity: 1; animation: none; }
+      .boot-cursor, .boot-fill { animation: none; }
+    }
   </style>
 </head>
 <body class="text-slate-200 antialiased selection:bg-cyan/20 selection:text-white">
   <div id="scroll-progress"></div>
+
+  <div id="boot-screen" role="status" aria-label="Loading portfolio">
+    <div class="boot-shell">
+      <div class="boot-bar"><span class="boot-dot bg-[#e95420]"></span><span class="boot-dot bg-[#f6b73c]"></span><span class="boot-dot bg-[#5dd65d]"></span><span class="ml-2 font-mono text-xs text-white/60">glen@portfolio: ~</span></div>
+      <div class="boot-terminal">
+        <div class="boot-line"><span class="boot-accent">Ubuntu 24.04 LTS</span> glen-portfolio tty1</div>
+        <div class="boot-line mt-4">glen-portfolio login: <span class="text-white">glen</span></div>
+        <div class="boot-line">Password: ••••••••</div>
+        <div class="boot-line mt-4"><span class="boot-success">[ OK ]</span> Session authenticated</div>
+        <div class="boot-line"><span class="boot-success">[ OK ]</span> Loading security profile</div>
+        <div class="boot-line mt-4"><span class="text-[#87d96c]">glen@portfolio</span>:<span class="text-[#71a7ff]">~</span>$ start portfolio <span class="boot-cursor"></span></div>
+      </div>
+      <div class="boot-track"><div class="boot-fill"></div></div>
+    </div>
+  </div>
 
   <header class="fixed inset-x-0 top-0 z-50 border-b border-white/10 glass">
     <nav class="mx-auto flex h-16 max-w-6xl items-center justify-between px-5" aria-label="Main navigation">
@@ -87,7 +132,7 @@
 
   <main>
     <section id="home" class="border-b border-white/10">
-      <div class="mx-auto grid max-w-6xl items-center gap-9 px-5 pb-14 pt-28 sm:px-8 sm:pb-20 sm:pt-36 lg:grid-cols-[.95fr_1.05fr] lg:gap-12">
+      <div class="mx-auto grid max-w-6xl items-center gap-9 px-5 pb-14 pt-28 sm:px-8 sm:pb-20 sm:pt-36 lg:grid-cols-[minmax(0,.95fr)_minmax(0,1.05fr)] lg:gap-12">
         <div>
           <p class="eyebrow">Security Operations · Mangaluru, India</p>
           <h1 class="hero-title mt-4 text-white">Glen Jude Dsouza</h1>
@@ -98,10 +143,16 @@
             <a href="#contact" class="rounded-lg border border-white/20 px-5 py-3 text-sm font-semibold text-white hover:border-cyan">Contact me</a>
           </div>
         </div>
-        <a href="#splunk-project-title" class="card block overflow-hidden rounded-2xl border border-white/15 p-3 hover:border-cyan">
-          <img class="project-frame block h-auto w-full rounded-lg" src="projects/splunk-bots-v3/dashboard.png" width="1754" height="967" alt="Splunk BOTS v3 dashboard displaying Windows logon counts, charts, and triage results">
-          <div class="flex items-center justify-between gap-3 px-2 pb-1 pt-3">
-            <span><span class="eyebrow block">Featured project</span><span class="mt-1 block text-sm font-semibold text-white">Windows logon triage in Splunk</span></span>
+        <a href="#splunk-project-title" class="card soc-console block min-w-0 overflow-hidden rounded-xl border hover:border-cyan">
+          <div class="soc-console-bar flex flex-wrap items-center justify-between gap-2 px-4 py-3">
+            <span class="eyebrow font-mono">Splunk Enterprise</span>
+            <span class="font-mono text-xs text-slate-300">BOTS v3 · Lab dataset</span>
+          </div>
+          <div class="p-3">
+            <img class="project-frame block h-auto w-full rounded-md" src="projects/splunk-bots-v3/dashboard.png" width="1754" height="967" alt="Splunk BOTS v3 dashboard displaying Windows logon counts, charts, and triage results">
+          </div>
+          <div class="soc-console-case flex items-center justify-between gap-3 px-4 py-3">
+            <span><span class="block text-sm font-semibold text-white">Windows logon triage in Splunk</span></span>
             <span class="text-lg text-cyan" aria-hidden="true">↗</span>
           </div>
         </a>
@@ -236,7 +287,15 @@
 
   <script>
 
+    const bootScreen = document.getElementById("boot-screen");
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    document.body.style.overflow = "hidden";
+    const finishBoot = () => {
+      bootScreen.classList.add("boot-done");
+      document.body.style.overflow = "";
+      setTimeout(() => bootScreen.remove(), 700);
+    };
+    if (reducedMotion) finishBoot(); else setTimeout(finishBoot, 3400);
 
     const progressBar = document.getElementById("scroll-progress");
     const backToTop = document.getElementById("backToTop");
