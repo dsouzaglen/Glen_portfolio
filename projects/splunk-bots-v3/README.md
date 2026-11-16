@@ -11,7 +11,7 @@ A seven-panel Splunk Enterprise dashboard for Windows authentication monitoring 
 3. Review the failed-logon table for the event time, host, account, source, and logon type. Pivot to the original event before deciding whether to escalate.
 4. Check the event-code and source-type charts to understand what telemetry is available.
 
-![Failed-logon triage table and source-type coverage](triage.png)
+![Failed-logon triage table and source-type coverage](failed-logon-triage-original.png)
 
 In this lab, the full index contained **2,083,056 events**. The Windows Security searches returned **427 successful logon events** and **3 failed logon events**. The failed events showed `-` for the source address, so the table alone cannot establish the origin of the activity. These are event counts from the lab dataset.
 
